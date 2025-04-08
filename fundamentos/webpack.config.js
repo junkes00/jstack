@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   // entrada
-  entry: path.resolve(__dirname, "transpiled", "index.js"), // usa o resolve para pegar o caminho relativo
+  entry: path.resolve(__dirname, "src", "index.js"), // usa o resolve para pegar o caminho relativo
   // saída
   output: {
     path: path.resolve(__dirname, "build"),
@@ -17,4 +17,16 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: "babel-loader",
+      },
+    ],
+  },
+  devServer: {
+    port: 3000,
+  },
 };
