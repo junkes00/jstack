@@ -1,9 +1,11 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import themes from "../styles/themes";
 
 export const ThemeContext = createContext();
 
 export default function CurrentThemeProvider({ children }) {
+  const THEME = "theme";
+
   const [theme, setTheme] = useState("dark");
 
   const currentTheme = useMemo(() => {
@@ -24,6 +26,18 @@ export default function CurrentThemeProvider({ children }) {
     }),
     [currentTheme, theme, handleToggleTheme]
   );
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem(THEME);
+
+    if (storedTheme) {
+      setTheme(storedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(THEME, theme);
+  }, [theme]);
 
   return (
     <ThemeContext.Provider value={contextValue}>
