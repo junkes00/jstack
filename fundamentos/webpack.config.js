@@ -9,6 +9,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "bundle[hash].js", // hash para gerar um hash aleatório para o arquivo
+    publicPath: "/", // especifica aonde vão estar o arquivos de bundle no projeto
   },
   plugins: [
     // Plugin que injeta a tag scripts dentro do index.html
@@ -32,5 +33,6 @@ module.exports = {
   },
   devServer: {
     port: 3000,
+    historyApiFallback: true,
   },
 };
