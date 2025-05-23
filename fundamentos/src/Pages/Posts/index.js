@@ -5,7 +5,7 @@ import { Container } from "./styles";
 
 import posts from "./posts";
 
-export default function PostsList() {
+export default function Posts() {
   return (
     <Container>
       {posts.map((post) => (
