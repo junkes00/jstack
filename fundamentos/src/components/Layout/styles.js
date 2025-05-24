@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+  }
+`;
+
 export const Nav = styled.nav`
   background: #000;
   margin-top: 1rem;

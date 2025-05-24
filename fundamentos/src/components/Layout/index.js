@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { BrowserRouter, Link } from "react-router-dom";
 
 import GlobalStyle from "../../styles/global";
-import { Nav } from "./styles";
+import { Container, Nav } from "./styles";
 
 import Footer from "../Footer";
 import Header from "../Header";
@@ -16,17 +16,19 @@ export default function Layout({ children }) {
   return (
     <ThemeProvider theme={currentTheme}>
       <BrowserRouter>
-        <GlobalStyle />
-        <Header />
+        <Container>
+          <GlobalStyle />
+          <Header />
 
-        <Nav>
-          <Link to="/">Home</Link>
-          <Link to="/posts">Posts</Link>
-          <Link to="/posts/12311241">Post</Link>
-        </Nav>
+          <Nav>
+            <Link to="/">Home</Link>
+            <Link to="/posts">Posts</Link>
+            <Link to="/posts/12311241">Post</Link>
+          </Nav>
 
           {children}
           <Footer />
+        </Container>
       </BrowserRouter>
     </ThemeProvider>
   );
