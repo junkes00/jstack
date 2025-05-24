@@ -10,9 +10,7 @@ import Header from "../Header";
 import { ThemeProvider } from "styled-components";
 import { ThemeContext } from "../../context/ThemeContext";
 
-import Routes from "../../Routes";
-
-export default function Layout() {
+export default function Layout({ children }) {
   const { currentTheme } = useContext(ThemeContext);
 
   return (
@@ -27,8 +25,8 @@ export default function Layout() {
           <Link to="/posts/12311241">Post</Link>
         </Nav>
 
-        <Routes />
-        <Footer />
+          {children}
+          <Footer />
       </BrowserRouter>
     </ThemeProvider>
   );
