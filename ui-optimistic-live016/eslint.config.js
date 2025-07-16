@@ -28,7 +28,7 @@ export default defineConfig([
       '@stylistic/jsx-one-expression-per-line': 'off',
       'linebreak-style': [
         'error',
-        'unix',
+        'windows',
       ],
     },
   },

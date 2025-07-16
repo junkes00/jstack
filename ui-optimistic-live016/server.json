@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Nicolas Junkes",
+      "username": "junkes00",
+      "blocked": true
+    },
+    {
+      "id": "2",
+      "name": "Nicole Sypriany",
+      "username": "nicolesypriany",
+      "blocked": false
+    },
+    {
+      "id": "3",
+      "name": "Ylan Benoliel",
+      "username": "ylanbenoliel",
+      "blocked": true
+    },
+    {
+      "id": "4",
+      "name": "Mateus Silva",
+      "username": "maateusilva",
+      "blocked": false
+    }
+  ]
+}
