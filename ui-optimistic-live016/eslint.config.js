@@ -16,7 +16,7 @@ export default defineConfig([
 
   }),
 
-  globalIgnores([".config/*"]),
+  globalIgnores(['.config/*']),
 
   {
     plugins: {
@@ -25,6 +25,7 @@ export default defineConfig([
     rules: {
       'no-console': 'warn',
       '@stylistic/indent': ['error', 2],
+      '@stylistic/jsx-one-expression-per-line': 'off',
       'linebreak-style': [
         'error',
         'unix',
