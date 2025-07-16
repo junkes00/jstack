@@ -1,7 +1,12 @@
+import { ThemeProvider } from './app/context/theme-context';
+import { ThemeSwitcher } from './components/theme-switcher';
+
 export function App() {
   return (
-    <div>
-      <h1>Hello world!</h1>
-    </div>
+    <ThemeProvider>
+      <div>
+        <ThemeSwitcher />
+      </div>
+    </ThemeProvider>
   );
 }
