@@ -27,7 +27,21 @@ export function App() {
     getValues,
     setValue
   } = useForm<IFormData>({
+    defaultValues: async () => {
+      const response = await fetch("https://jsonplaceholder.typicode.com/users/1");
+      const user = await response.json();
+      console.log(user);
 
+      await sleep(2000);
+
+      return {
+        name: user.name,
+        age: 20,
+        city: user.address.city,
+        street: user.address.street,
+        zipCode: user.address.zipcode
+      };
+    }
   });
 
   const handleSubmit = hookFormHandleSubmit(
@@ -76,7 +90,11 @@ export function App() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        {formState.isLoading && (
+          <p>Carregando dados...</p>
+        )}
+
         <div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-96">
             <div>
