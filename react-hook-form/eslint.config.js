@@ -41,6 +41,7 @@ export default defineConfig([
       "react/react-in-jsx-scope": "off",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "error",
+      "@typescript-eslint/no-unused-vars": "warn",
       "@stylistic/indent": ["error", 2],
       "@stylistic/jsx-one-expression-per-line": "off",
       "@stylistic/no-multiple-empty-lines": "off",

@@ -55,17 +55,15 @@ export function App() {
     setValue("street", body.logradouro);
   }
 
-  const lastSearchedZipCode = useRef(getValues("zipCode"));
 
   useEffect(() => {
-    const { unsubscribe } = watch(async (formData) => {
+    const { unsubscribe } = watch(async (formData, { name }) => {
       const zipcode = formData.zipCode ?? "";
 
-      if (zipcode.length >= 8 && zipcode !== lastSearchedZipCode.current) {
+      if (name === "zipCode" && zipcode.length >= 8) {
         const response = await fetch(`https://viacep.com.br/ws/${zipcode}/json/`);
         const body = await response.json();
 
-        lastSearchedZipCode.current = zipcode;
         setValue("city", body.localidade);
         setValue("street", body.logradouro);
       }
