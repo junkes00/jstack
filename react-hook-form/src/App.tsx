@@ -1,13 +1,18 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { ThemeProvider } from "./app/context/theme-context";
 
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { sleep } from "./app/lib/utils";
 import { Button } from "./ui/components/ui/button";
 import { Input } from "./ui/components/ui/input";
 
 interface IFormData {
   name: string;
   age: number;
+  zipCode: string;
+  street: string;
+  city: string;
 }
 
 export function App() {
@@ -16,17 +21,22 @@ export function App() {
   const {
     handleSubmit: hookFormHandleSubmit,
     register,
-    formState
+    formState,
+    reset,
+    watch,
+    getValues,
+    setValue
   } = useForm<IFormData>({
-    defaultValues: {
-      name: "",
-    }
+
   });
 
   const handleSubmit = hookFormHandleSubmit(
-    (data) => {
+    async (data) => {
       console.log("Formulário submetido");
-      console.log(data);
+
+      await sleep(2000);
+
+      reset(data);
     },
     (errors) => {
       console.log(errors);
@@ -34,6 +44,37 @@ export function App() {
   );
 
   const isDirty = Object.keys(formState.dirtyFields).length > 0;
+
+  async function handleSearchZipCode() {
+    const zipCode = getValues("zipCode");
+
+    const response = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`);
+    const body = await response.json();
+
+    setValue("city", body.localidade);
+    setValue("street", body.logradouro);
+  }
+
+  const lastSearchedZipCode = useRef(getValues("zipCode"));
+
+  useEffect(() => {
+    const { unsubscribe } = watch(async (formData) => {
+      const zipcode = formData.zipCode ?? "";
+
+      if (zipcode.length >= 8 && zipcode !== lastSearchedZipCode.current) {
+        const response = await fetch(`https://viacep.com.br/ws/${zipcode}/json/`);
+        const body = await response.json();
+
+        lastSearchedZipCode.current = zipcode;
+        setValue("city", body.localidade);
+        setValue("street", body.logradouro);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [setValue, watch]);
 
   return (
     <ThemeProvider>
@@ -43,7 +84,11 @@ export function App() {
             <div>
               <Input
                 placeholder="Nome"
-                {...register("name")}
+                {...register("name", {
+                  // required: true,
+                  // min: 2,
+                }
+                )}
               />
 
               <ErrorMessage
@@ -63,7 +108,8 @@ export function App() {
                 type="number"
                 placeholder="Idade"
                 {...register("age", {
-                  required: true,
+                  // required: true,
+                  // min: 18,
                   setValueAs: age => Number(age)
                 }
                 )}
@@ -80,9 +126,36 @@ export function App() {
               />
             </div>
 
+            <div className="flex gap-2">
+              <Input
+                // type="number"
+                placeholder="CEP"
+                className="flex-1"
+                {...register("zipCode")}
+              />
+
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={handleSearchZipCode}
+              >
+                Buscar
+              </Button>
+            </div>
+
+            <Input
+              placeholder="Cidade"
+              {...register("city")}
+            />
+
+            <Input
+              placeholder="Rua"
+              {...register("street")}
+            />
+
             <div className="flex mt-4 gap-2">
-              <Button type="button" className="flex-1" disabled={!isDirty}>Salvar</Button>
-              <Button className="flex-1" disabled={isDirty}>Enviar</Button>
+              <Button className="flex-1" disabled={!isDirty || formState.isSubmitting || !formState.isValid}>Salvar</Button>
+              <Button className="flex-1" disabled={isDirty || formState.isSubmitting || formState.isValid}>Enviar</Button>
             </div>
           </form>
         </div>
