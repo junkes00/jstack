@@ -15,7 +15,7 @@ async function getUser() {
     age: 20,
     city: user.address.city,
     street: user.address.street,
-    zipCode: "89056112",
+    zipcode: "89056112",
   };
 }
 

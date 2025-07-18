@@ -1,7 +1,7 @@
 export interface IUser {
   name: string;
   age: number;
-  zipCode: string;
+  zipcode: string;
   street: string;
   city: string;
 };

@@ -1,19 +1,33 @@
 import { ErrorMessage } from "@hookform/error-message";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+
+import { sleep } from "@/app/lib/utils";
 
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 import { sleep } from "@/app/lib/utils";
 import type { IUser } from "@/app/types/IUser";
+import { Switch } from "./ui/switch";
+
+const schema = z.object({
+  blocked: z.boolean().optional(),
+  name: z.string().min(1, "Nome é obrigatório"),
+  zipcode: z.string(),
+  age: z.number().optional(),
+  city: z.string().optional(),
+  street: z.string().optional(),
+});
+
+type FormData = z.infer<typeof schema>;
 
 interface IFormProps {
   user: IUser;
 }
 
 export function Form({ user }: Readonly<IFormProps>) {
-  console.log("App renderizou");
+  console.log("Form renderizou");
 
   const {
     handleSubmit: hookFormHandleSubmit,
@@ -23,11 +37,11 @@ export function Form({ user }: Readonly<IFormProps>) {
     watch,
     getValues,
     setValue,
-  } = useForm<IUser>({
-    values: user,
+  } = useForm<FormData>({
     resetOptions: {
       keepDirtyValues: true,
     },
+    resolver: zodResolver(schema),
   });
 
   const handleSubmit = hookFormHandleSubmit(
@@ -35,6 +49,8 @@ export function Form({ user }: Readonly<IFormProps>) {
       console.log("Formulário submetido");
 
       await sleep(2000);
+
+      console.log(data);
 
       reset(data);
     },
@@ -46,9 +62,9 @@ export function Form({ user }: Readonly<IFormProps>) {
   const isDirty = Object.keys(formState.dirtyFields).length > 0;
 
   async function handleSearchZipCode() {
-    const zipCode = getValues("zipCode");
+    const zipcode = getValues("zipcode");
 
-    const response = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`);
+    const response = await fetch(`https://viacep.com.br/ws/${zipcode}/json/`);
     const body = await response.json();
 
     setValue("city", body.localidade);
@@ -57,9 +73,9 @@ export function Form({ user }: Readonly<IFormProps>) {
 
   useEffect(() => {
     const { unsubscribe } = watch(async (formData, { name }) => {
-      const zipcode = formData.zipCode ?? "";
+      const zipcode = formData.zipcode ?? "";
 
-      if (name === "zipCode" && zipcode.length >= 8) {
+      if (name === "zipcode" && zipcode.length >= 8) {
         const response = await fetch(`https://viacep.com.br/ws/${zipcode}/json/`);
         const body = await response.json();
 
@@ -84,13 +100,7 @@ export function Form({ user }: Readonly<IFormProps>) {
           <div>
             <Input
               placeholder="Nome"
-              {...register("name", {
-                required: {
-                  value: true,
-                  message: "Campo obrigatório",
-                },
-              },
-              )}
+              {...register("name")}
             />
 
             <ErrorMessage
@@ -108,11 +118,7 @@ export function Form({ user }: Readonly<IFormProps>) {
             <Input
               type="number"
               placeholder="Idade"
-              {...register("age", {
-                required: true,
-                setValueAs: age => Number(age),
-              },
-              )}
+              {...register("age")}
             />
 
             <ErrorMessage
@@ -130,13 +136,7 @@ export function Form({ user }: Readonly<IFormProps>) {
             <Input
               placeholder="CEP"
               className="flex-1"
-              {...register("zipCode", {
-                required: {
-                  value: true,
-                  message: "Campo obrigatório",
-                },
-              },
-              )}
+              {...register("zipcode")}
             />
 
             <Button
@@ -150,7 +150,7 @@ export function Form({ user }: Readonly<IFormProps>) {
           </div>
           <ErrorMessage
             errors={formState.errors}
-            name="zipCode"
+            name="zipcode"
             render={({ message }) => (
               <small className="block text-red-400">
                 {message}
