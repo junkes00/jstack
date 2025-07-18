@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
@@ -7,7 +10,6 @@ import { sleep } from "@/app/lib/utils";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-import { sleep } from "@/app/lib/utils";
 import type { IUser } from "@/app/types/IUser";
 import { Switch } from "./ui/switch";
 
@@ -31,6 +33,7 @@ export function Form({ user }: Readonly<IFormProps>) {
 
   const {
     handleSubmit: hookFormHandleSubmit,
+    control,
     register,
     formState,
     reset,
@@ -38,6 +41,10 @@ export function Form({ user }: Readonly<IFormProps>) {
     getValues,
     setValue,
   } = useForm<FormData>({
+    values: {
+      ...user,
+      blocked: false,
+    },
     resetOptions: {
       keepDirtyValues: true,
     },
@@ -97,6 +104,20 @@ export function Form({ user }: Readonly<IFormProps>) {
 
       <div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-96">
+
+          <div>
+            <Controller
+              control={control}
+              name="blocked"
+              render={({ field }) => (
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
+            />
+          </div>
+
           <div>
             <Input
               placeholder="Nome"
