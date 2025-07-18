@@ -33,7 +33,7 @@ export default defineConfig([
     },
     rules: {
       "no-console": "warn",
-      "no-unused-vars": "warn",
+      "no-unused-vars": "error",
       "linebreak-style": [
         "error",
         "windows",
@@ -43,9 +43,9 @@ export default defineConfig([
       "react-hooks/exhaustive-deps": "error",
       "@typescript-eslint/no-unused-vars": "warn",
       "@stylistic/indent": ["error", 2],
-      "@stylistic/jsx-one-expression-per-line": "off",
-      "@stylistic/no-multiple-empty-lines": "off",
-      "@stylistic/comma-dangle": "off",
+      "@stylistic/jsx-one-expression-per-line": "error",
+      "@stylistic/no-multiple-empty-lines": "error",
+      "@stylistic/comma-dangle": "error",
     },
   },
 ]);
