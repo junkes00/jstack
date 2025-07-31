@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 async function getMakes() {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
   return ["Audi", "BMW", "Mercedes", "Nissan", "Subaru"];
 }
