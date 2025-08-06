@@ -33,7 +33,7 @@ export function EditContactForm({ contact }: Readonly<{ contact: Contact }>) {
 
       <ContactForm
         contact={contact}
-        onSubmit={handleSubmit}
+        submitAction={handleSubmit}
       />
     </>
   );
