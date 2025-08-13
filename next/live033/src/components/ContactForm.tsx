@@ -1,7 +1,7 @@
 'use client'
 
 import { Loader2Icon } from 'lucide-react';
-import { FormEvent, useState } from 'react';
+import { useActionState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -11,50 +11,40 @@ interface IContactFormProps {
     name: string;
     email: string;
   };
-  submitAction?: (formData: {
-    name: string;
-    email: string;
-  }) => Promise<any>;
+  submitAction?: (formData: FormData) => Promise<any>;
 }
 
 export function ContactForm({ contact, submitAction }: Readonly<IContactFormProps>) {
-  const [name, setName] = useState(contact?.name ?? '');
-  const [email, setEmail] = useState(contact?.email ?? '');
-  const [isLoading, setIsLoading] = useState(false);
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    setIsLoading(true);
-
-    await submitAction?.({ name, email });
-    setIsLoading(false);
-  }
+  // ! Somente a partir da versão 15 do next e 19 do react
+  const [, clientSubmitAction, isPending] = useActionState(
+    (_previousData: any, formData: FormData) => submitAction?.(formData),
+    null,
+  );
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
+    <form className="space-y-4" action={clientSubmitAction}>
       <div className="space-y-1.5">
         <Label>Nome</Label>
         <Input
-          value={name}
+          defaultValue={contact?.name}
           name="name"
-          onChange={event => setName(event.target.value)}
         />
       </div>
 
       <div className="space-y-1.5">
         <Label>E-mail</Label>
         <Input
-          value={email}
+          defaultValue={contact?.email}
           name="email"
-          onChange={event => setEmail(event.target.value)}
         />
       </div>
 
-      <Button type="submit" disabled={isLoading}>
-        {isLoading && <Loader2Icon className="size-4 mr-1 animate-spin" />}
+
+      <Button type="submit" disabled={isPending}>
+        {isPending && <Loader2Icon className="size-4 mr-1 animate-spin" />}
         {contact ? 'Salvar' : 'Criar'}
       </Button>
+
     </form>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
-import './globals.css';
 import React from 'react';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'MyContacts',

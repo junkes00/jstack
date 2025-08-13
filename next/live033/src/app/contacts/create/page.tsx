@@ -6,8 +6,10 @@ import Link from 'next/link';
 
 export default function CreateContactPage() {
 
-  async function submitAction(data: { name: string; email: string }) {
+  async function submitAction(formData: FormData) {
     'use server'
+
+    const data = Object.fromEntries(formData) as { name: string; email: string };
 
     sleep(2000);
     await db.contact.create({ data });
