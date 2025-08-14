@@ -1,6 +1,9 @@
 'use client'
 
+import { IContactError, IContactSuccess } from '@/@types';
+import { IActionResponse } from '@/@types/ActionResponse';
 import { Loader2Icon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -11,13 +14,30 @@ interface IContactFormProps {
     name: string;
     email: string;
   };
-  submitAction?: (formData: FormData) => Promise<any>;
+  submitAction: (formData: FormData) => Promise<IActionResponse<IContactSuccess, IContactError>>;
 }
 
 export function ContactForm({ contact, submitAction }: Readonly<IContactFormProps>) {
+  const router = useRouter();
+
   // ! Somente a partir da versão 15 do next e 19 do react
-  const [, clientSubmitAction, isPending] = useActionState(
-    (_previousData: any, formData: FormData) => submitAction?.(formData),
+  const [state, clientSubmitAction, isPending] = useActionState<
+    IActionResponse<IContactSuccess, IContactError> | null, FormData
+  >(
+    async (_previousData: any, formData: FormData) => {
+      const response = await submitAction(formData)
+
+      if (response?.status === 'error') {
+        const errorMessage = response.body?.message.map(issue => issue.message).join(' | ');
+        alert(errorMessage);
+      }
+
+      if (response?.status === 'success') {
+        router.push(`/contacts/${response.body?.contact.id}/edit`);
+      }
+
+      return response;
+    },
     null,
   );
 
