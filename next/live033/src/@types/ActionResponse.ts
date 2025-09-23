@@ -8,7 +8,13 @@ export interface IActionError<TErrBody extends Record<string, any>> {
   body?: TErrBody;
 }
 
-export type IActionResponse<
-  TSuccessBody extends Record<string, any>,
-  TErrBody extends Record<string, any>
-> = IActionSuccess<TSuccessBody> | IActionError<TErrBody>;
+// export type IActionResponse<
+//   TSuccessBody extends Record<string, any>,
+//   TErrBody extends Record<string, any>
+// > = IActionSuccess<TSuccessBody> | IActionError<TErrBody>;
+
+
+export type ActionResponse = {
+  status: 'error' | 'success';
+  body: Record<string, any>;
+}

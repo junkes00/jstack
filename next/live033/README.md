@@ -2,7 +2,15 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+Prisma commands:
+
+```bash
+pnpm prisma init
+pnpm prisma migrate dev
+pnpm prisma studio
+```
+
+Run the development server:
 
 ```bash
 npm run dev

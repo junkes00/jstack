@@ -1,5 +1,4 @@
-import { IContactError, IContactSuccess } from '@/@types';
-import { IActionResponse } from '@/@types/ActionResponse';
+import { ActionResponse } from '@/@types/ActionResponse';
 import { ContactForm } from '@/components/ContactForm';
 import { db } from '@/lib/db';
 import { sleep } from '@/lib/utils';
@@ -7,38 +6,39 @@ import { createContactSchema } from '@/schema';
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
 
-export default function CreateContactPage() {
+async function submitAction(formData: FormData): Promise<ActionResponse> {
+  'use server'
 
-  async function submitAction(formData: FormData): Promise<IActionResponse<IContactSuccess, IContactError>> {
-    'use server'
+  const data = Object.fromEntries(formData) as { name: string; email: string };
+  const parsedData = createContactSchema.safeParse(data);
 
-    const data = Object.fromEntries(formData) as { name: string; email: string };
-    const parsedData = createContactSchema.safeParse(data);
-
-    if (!parsedData.success) {
-      return {
-        status: 'error',
-        body: {
-          message: parsedData.error.issues,
-        }
-      }
-    }
-
-    const { name, email } = parsedData.data;
-
-    sleep(2000);
-    const contact = await db.contact.create({
-      data: {
-        name,
-        email
-      }
-    });
-
+  if (!parsedData.success) {
     return {
-      status: 'success',
-      body: { contact }
+      status: 'error',
+      body: {
+        message: parsedData.error.issues,
+      }
     }
   }
+
+  const { name, email } = parsedData.data;
+
+  sleep(2000);
+  const contact = await db.contact.create({
+    data: {
+      name,
+      email
+    }
+  });
+
+  return {
+    status: 'success',
+    body: { contact }
+  }
+}
+
+export default function CreateContactPage() {
+  // async function submitAction(formData: FormData): Promise<IActionResponse<IContactSuccess, IContactError>> {
 
   return (
     <>
