@@ -1,7 +1,4 @@
-import { ContactForm } from '@/components/ContactForm';
 import { db } from '@/lib/db';
-import { ArrowLeftIcon } from 'lucide-react';
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { EditContactForm } from './EditContactForm';
 
@@ -16,7 +13,7 @@ interface ICreateContactPageProps {
   }
 }
 
-export default async function CreateContactPage({ params }: Readonly<ICreateContactPageProps>) {
+export default async function EditContactPage({ params }: Readonly<ICreateContactPageProps>) {
   const { contactId } = params;
 
   const contact = await db.contact.findUnique({

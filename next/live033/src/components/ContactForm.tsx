@@ -22,9 +22,6 @@ export function ContactForm({ contact, submitAction }: Readonly<IContactFormProp
   const router = useRouter();
 
   // ! Somente a partir da versão 15 do next e 19 do react
-  // const [state, clientSubmitAction, isPending] = useActionState<
-  //   IActionResponse<IContactSuccess, IContactError> | null, FormData
-  // >(
   const [state, clientSubmitAction, isPending] = useActionState(
     async (_previousData: any, formData: FormData) => {
       const response = await submitAction(formData)
@@ -42,8 +39,6 @@ export function ContactForm({ contact, submitAction }: Readonly<IContactFormProp
     },
     null,
   );
-
-  console.log(state)
 
   return (
     <form className="space-y-4" action={clientSubmitAction}>

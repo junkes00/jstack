@@ -9,7 +9,7 @@ import Link from 'next/link';
 async function submitAction(formData: FormData): Promise<ActionResponse> {
   'use server'
 
-  const data = Object.fromEntries(formData) as { name: string; email: string };
+  const data = Object.fromEntries(formData);
   const parsedData = createContactSchema.safeParse(data);
 
   if (!parsedData.success) {
