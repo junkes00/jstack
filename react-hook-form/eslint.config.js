@@ -8,8 +8,15 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default defineConfig([
-  { files: ["**/*.{js,ts,jsx,tsx}"], plugins: { js }, extends: ["js/recommended"] },
-  { files: ["**/*.{js,ts,jsx,tsx}"], languageOptions: { globals: globals.browser } },
+  {
+    files: ["**/*.{js,ts,jsx,tsx}"],
+    plugins: { js },
+    extends: ["js/recommended"],
+  },
+  {
+    files: ["**/*.{js,ts,jsx,tsx}"],
+    languageOptions: { globals: globals.browser },
+  },
 
   js.configs.recommended,
   tseslint.configs.recommended,
@@ -34,10 +41,7 @@ export default defineConfig([
     rules: {
       "no-console": "warn",
       "no-unused-vars": "error",
-      "linebreak-style": [
-        "error",
-        "windows",
-      ],
+      "linebreak-style": ["error", "windows"],
       "react/react-in-jsx-scope": "off",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "error",
@@ -45,7 +49,8 @@ export default defineConfig([
       "@stylistic/indent": ["error", 2],
       "@stylistic/jsx-one-expression-per-line": "error",
       "@stylistic/no-multiple-empty-lines": "error",
-      "@stylistic/comma-dangle": "error",
+      "@stylistic/comma-dangle": "off",
+      "@stylistic/arrow-parens": "off",
     },
   },
 ]);

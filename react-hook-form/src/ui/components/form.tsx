@@ -64,7 +64,9 @@ export function Form({ user }: Readonly<IFormProps>) {
       const zipcode = formData.zipcode ?? "";
 
       if (name === "zipcode" && zipcode.length >= 8) {
-        const response = await fetch(`https://viacep.com.br/ws/${zipcode}/json/`);
+        const response = await fetch(
+          `https://viacep.com.br/ws/${zipcode}/json/`
+        );
         const body = await response.json();
 
         if (body.erro) {
@@ -98,7 +100,7 @@ export function Form({ user }: Readonly<IFormProps>) {
     },
     (errors) => {
       console.log(errors);
-    },
+    }
   );
 
   async function handleSearchZipCode() {
@@ -116,29 +118,21 @@ export function Form({ user }: Readonly<IFormProps>) {
   return (
     <FormProvider {...form}>
       <div className="min-h-screen flex flex-col items-center justify-center">
-        {formState.isLoading && (
-          <p>Carregando dados...</p>
-        )}
+        {formState.isLoading && <p>Carregando dados...</p>}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-96">
-
           <div>
             <ControledSwitch control={control} name="blocked" />
           </div>
 
           <div>
-            <Input
-              placeholder="Nome"
-              {...register("name")}
-            />
+            <Input placeholder="Nome" {...register("name")} />
 
             <ErrorMessage
               errors={formState.errors}
               name="name"
               render={({ message }) => (
-                <small className="block text-red-400">
-                  {message}
-                </small>
+                <small className="block text-red-400">{message}</small>
               )}
             />
           </div>
@@ -148,7 +142,7 @@ export function Form({ user }: Readonly<IFormProps>) {
               type="number"
               placeholder="Idade"
               {...register("age", {
-                setValueAs: age => Number(age),
+                setValueAs: (age) => Number(age),
               })}
             />
 
@@ -156,9 +150,7 @@ export function Form({ user }: Readonly<IFormProps>) {
               errors={formState.errors}
               name="age"
               render={({ message }) => (
-                <small className="block text-red-400">
-                  {message}
-                </small>
+                <small className="block text-red-400">{message}</small>
               )}
             />
           </div>
@@ -171,38 +163,35 @@ export function Form({ user }: Readonly<IFormProps>) {
               {...register("zipcode")}
             />
 
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={handleSearchZipCode}
-            >
+            <Button type="button" variant="ghost" onClick={handleSearchZipCode}>
               Buscar
             </Button>
-
           </div>
           <ErrorMessage
             errors={formState.errors}
             name="zipcode"
             render={({ message }) => (
-              <small className="block text-red-400">
-                {message}
-              </small>
+              <small className="block text-red-400">{message}</small>
             )}
           />
 
-          <Input
-            placeholder="Cidade"
-            {...register("city")}
-          />
+          <Input placeholder="Cidade" {...register("city")} />
 
-          <Input
-            placeholder="Rua"
-            {...register("street")}
-          />
+          <Input placeholder="Rua" {...register("street")} />
 
           <div className="flex mt-4 gap-2">
-            <Button className="flex-1" disabled={!isDirty || formState.isSubmitting}>Salvar</Button>
-            <Button className="flex-1" disabled={isDirty || formState.isSubmitting}>Enviar</Button>
+            <Button
+              className="flex-1"
+              disabled={!isDirty || formState.isSubmitting}
+            >
+              Salvar
+            </Button>
+            <Button
+              className="flex-1"
+              disabled={isDirty || formState.isSubmitting}
+            >
+              Enviar
+            </Button>
           </div>
 
           <div className="flex gap-2">
@@ -240,8 +229,7 @@ export function Form({ user }: Readonly<IFormProps>) {
             </Button>
           </div>
         </form>
-
       </div>
     </FormProvider>
   );
-};
+}
