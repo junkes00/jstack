@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUsers } from '../services/get-users';
+import { listUsers } from '../services/list-users';
 
 export function useUsers() {
   const { data, isLoading } = useQuery({
     queryKey: ['users'],
-    queryFn: getUsers,
+    queryFn: listUsers,
   });
 
   return {

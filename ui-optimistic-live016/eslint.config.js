@@ -26,10 +26,6 @@ export default defineConfig([
       'no-console': 'warn',
       '@stylistic/indent': ['error', 2],
       '@stylistic/jsx-one-expression-per-line': 'off',
-      'linebreak-style': [
-        'error',
-        'windows',
-      ],
     },
   },
 ]);
