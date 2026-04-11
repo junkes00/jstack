@@ -7,6 +7,7 @@ import { UserForm } from './components/user-form';
 
 import { queryClient } from './app/lib/queryClient';
 import { UsersList } from './components/users-list';
+import { Toaster } from './components/ui/toaster';
 
 export function App() {
   return (
@@ -20,6 +21,9 @@ export function App() {
             <UsersList />
           </main>
         </div>
+
+        <Toaster richColors />
+
       </ThemeProvider>
 
       <ReactQueryDevtools />

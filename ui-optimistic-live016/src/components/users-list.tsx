@@ -1,4 +1,4 @@
-import { useUsers } from '@/app/hooks/useUsers';
+import { useUsers } from '@/app/hooks/use-users';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Switch } from './ui/switch';
 import { Skeleton } from './ui/skeleton';
