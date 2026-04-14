@@ -4,13 +4,13 @@
       "id": "1",
       "name": "Nicolas Junkes",
       "username": "junkes00",
-      "blocked": true
+      "blocked": false
     },
     {
       "id": "2",
-      "name": "Felipe Galkowisk",
+      "name": "Felipe Galkowski",
       "username": "FelipeGalkowski",
-      "blocked": false
+      "blocked": true
     },
     {
       "id": "3",

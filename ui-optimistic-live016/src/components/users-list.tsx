@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Switch } from './ui/switch';
 import { Skeleton } from './ui/skeleton';
 import { useUpdateUser } from '@/app/hooks/use-update-user';
+import { cn } from '@/app/lib/utils';
 
 export function UsersList() {
   const { users, isLoading } = useUsers();
@@ -24,7 +25,14 @@ export function UsersList() {
       )}
 
       {users.map(user => (
-        <div key={user.id} className="flex border p-4 rounded-md items-center justify-between">
+        <div
+          key={user.id}
+          className={cn(
+            'flex border p-4 rounded-md items-center justify-between',
+            user.status === 'pending' && 'opacity-70',
+            user.status === 'error' && 'border-destructive bg-destructive/10',
+          )}
+        >
           <div className="flex items-center gap-4">
             <Avatar>
               <AvatarImage src={`https://github.com/${user.username}.png`} />
@@ -38,8 +46,9 @@ export function UsersList() {
 
           </div>
           <Switch
-            // checked={user.blocked}
+            checked={user.blocked}
             onCheckedChange={blocked => handleBlockedChange(user.id, blocked)}
+            disabled={user.status === 'pending' || user.status === 'error'}
           />
         </div>
       ))}
