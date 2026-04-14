@@ -11,7 +11,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 import type { IUser } from "@/app/types/IUser";
-import { ControledSwitch } from "./controled-switch";
+import { ControlledSwitch } from "./controlled-switch";
 
 const schema = z.object({
   blocked: z.boolean().optional(),
@@ -122,7 +122,7 @@ export function Form({ user }: Readonly<IFormProps>) {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-96">
           <div>
-            <ControledSwitch control={control} name="blocked" />
+            <ControlledSwitch control={control} name="blocked" />
           </div>
 
           <div>
