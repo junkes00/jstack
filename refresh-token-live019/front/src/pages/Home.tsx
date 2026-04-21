@@ -1,29 +1,25 @@
 import { Skeleton } from '@/components/ui/Skeleton';
-import { useState } from 'react';
-
-const orders = [
-  {
-    id: crypto.randomUUID(),
-    orderNumber: '#001',
-    date: Date.now()
-  },
-  {
-    id: crypto.randomUUID(),
-    orderNumber: '#002',
-    date: Date.now()
-  },
-  {
-    id: crypto.randomUUID(),
-    orderNumber: '#003',
-    date: Date.now()
-  },
-];
+import { IOrder, OrdersService } from '@/services/OrdersService';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 export function Home() {
-  const [isLoading] = useState(false);
+  const [orders, setOrders] = useState<IOrder[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    OrdersService.getOrders()
+      .then(setOrders)
+      .catch(() => {
+        toast.error('Error ao carregar os pedidos!');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   return (
-    <div className="min-h-screen flex flex-col max-w-[800px] mx-auto justify-center">
+    <div className="min-h-screen px-10 flex flex-col max-w-[800px] mx-auto justify-center">
       <h1 className="text-3xl font-semibold">Bem-vindo(a) ao Dashboard!</h1>
       <h2 className="text-muted-foreground">Estes são os seus pedidos:</h2>
 

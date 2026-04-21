@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
+import { useAuth } from '@/hooks/useAuth';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 interface IFormData {
   email: string;
@@ -9,6 +11,7 @@ interface IFormData {
 }
 
 export function SignIn() {
+  const { signIn } = useAuth();
   const form = useForm<IFormData>({
     defaultValues: {
       email: '',
@@ -16,8 +19,12 @@ export function SignIn() {
     },
   });
 
-  const handleSubmit = form.handleSubmit((data) => {
-    console.log('Sign in data:', data);
+  const handleSubmit = form.handleSubmit(async ({ email, password }) => {
+    try {
+      await signIn(email, password);
+    } catch {
+      toast.error('Credenciais inválidas');
+    }
   });
 
   return (
