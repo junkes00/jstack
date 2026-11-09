@@ -1,0 +1,25 @@
+{
+  "orders": [
+    {
+      "orderId": "12fb7bd3-5a35-46d0-b4e1-a28c18182040",
+      "tableName": "Orders",
+      "item": {
+        "id": "c2afe6ee-0423-4441-81a0-1bc426ee388e",
+        "email": "nicolas@mail.com",
+        "amount": 838
+      },
+      "id": "817PRvENL7U"
+    },
+    {
+      "orderId": "57aa5a78-a12b-414d-a083-720f64b3228d",
+      "tableName": "Orders",
+      "item": {
+        "id": "73998903-1991-4be4-a978-922ba979d3c8",
+        "email": "nicolas@mail.com",
+        "amount": 645
+      },
+      "id": "eWfprAc-zS8"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
